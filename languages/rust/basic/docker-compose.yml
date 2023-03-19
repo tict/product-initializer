@@ -13,4 +13,4 @@ services:
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: cargo new new-project
+    entrypoint: cargo new rust/new-basic-project
