@@ -55,8 +55,4 @@ run:
 .PHONY: run-shell
 run-shell:
 	@cd $(TARGET_ROOT) \
-	&& ( \
-		$(DOCKER_COMPOSE) run --entrypoint bash tool \
-			&& $(DOCKER_COMPOSE) rm -f tool \
-			|| $(DOCKER_COMPOSE) rm -f tool \
-	)
+	&& $(DOCKER_COMPOSE) run --entrypoint bash --rm tool

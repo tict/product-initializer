@@ -3,6 +3,7 @@ version: "3.8"
 services:
   tool:
     container_name: rust-dev
+    image: rust-dev:1.0.0
     build:
       context: ./docker/develop
       args:
