@@ -15,4 +15,4 @@ services:
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: cargo new rust/new-basic-project && echo "done" && ${COPY_SKEL} rust/new-basic-project
+    entrypoint: bash -c 'cargo new rust/new-basic-project && ${COPY_SKEL} rust/new-basic-project'

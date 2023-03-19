@@ -31,6 +31,7 @@ prepare-rust: $(RUST_ROOT)/basic/.env dist
 # .env
 $(RUST_ROOT)/basic/.env: $(SCRIPT_FILES_DOCKER_COMMON)
 	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/scripts/common
+	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/skel/main/docker/develop/scripts/common
 	sh scripts/basic/env.sh $@
 
 
