@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  tool:
+    container_name: rust-dev-tool
+    build:
+      context: ./docker/tool
+      args:
+        DEV_USER_ID: ${HOST_UID:-1000}
+        DEV_GROUP_ID: ${HOST_GID:-1000}
+    tty: true
+    user: ${HOST_UID:-1000}:${HOST_GID:-1000}
+    working_dir: /workspace
+    volumes:
+      - ../../../dist:/workspace
+    entrypoint: cargo new new-project
