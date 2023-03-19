@@ -14,5 +14,6 @@ fi
 $ECHO "HOST_UID=${HOST_UID}" >> $ENV_FILE
 $ECHO "HOST_GID=${HOST_GID}" >> $ENV_FILE
 $ECHO "DEV_USER_NAME=${DEV_USER_NAME}" >> $ENV_FILE
+$ECHO "COPY_SKEL=/opt/pi/scripts/common/copy-skel.sh" >> $ENV_FILE
 
 $ECHO "creating ${ENV_FILE} done."

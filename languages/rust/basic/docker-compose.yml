@@ -8,9 +8,11 @@ services:
       args:
         DEV_USER_ID: ${HOST_UID:-1000}
         DEV_GROUP_ID: ${HOST_GID:-1000}
+    environment:
+      COPY_SKEL: ${COPY_SKEL:-/opt/pi/scripts/copy-skel.sh}
     tty: true
     user: ${HOST_UID:-1000}:${HOST_GID:-1000}
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: cargo new rust/new-basic-project
+    entrypoint: cargo new rust/new-basic-project && echo "done" && ${COPY_SKEL} rust/new-basic-project

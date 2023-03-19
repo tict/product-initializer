@@ -4,6 +4,7 @@ DOCKER_COMPOSE := docker-compose
 RUST_ROOT := languages/rust
 
 SCRIPTS_DOCKER_COMMON := scripts/docker/common
+SCRIPT_FILES_DOCKER_COMMON := $(shell find $(SCRIPTS_DOCKER_COMMON) -name *.sh -print)
 
 # clean
 .PHONY: clean
@@ -17,6 +18,10 @@ clean:
 dist:
 	mkdir -p dist
 
+# test
+test:
+	echo $(SCRIPT_FILES_DOCKER_COMMON)
+
 
 # prepare
 .PHPNY: prepare-rust
@@ -24,7 +29,7 @@ prepare-rust: $(RUST_ROOT)/basic/.env dist
 
 
 # .env
-$(RUST_ROOT)/basic/.env: $(SCRIPTS_DOCKER_COMMON)/init-user.sh
+$(RUST_ROOT)/basic/.env: $(SCRIPT_FILES_DOCKER_COMMON)
 	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/scripts/common
 	sh scripts/basic/env.sh $@
 
