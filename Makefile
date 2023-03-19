@@ -34,9 +34,22 @@ $(RUST_ROOT)/basic/.env: $(SCRIPTS_DOCKER_COMMON)/init-user.sh
 rust: prepare-rust
 	@make run TARGET_ROOT="$(RUST_ROOT)/basic"
 
+.PHONY: rust-shell
+rust-shell: prepare-rust
+	@make run-shell TARGET_ROOT="$(RUST_ROOT)/basic"
 
 # main
 .PHONY: run
 run:
-	cd $(TARGET_ROOT) \
+	@cd $(TARGET_ROOT) \
 	&& ($(DOCKER_COMPOSE) up && $(DOCKER_COMPOSE) rm -f tool || $(DOCKER_COMPOSE) rm -f tool)
+
+# shell
+.PHONY: run-shell
+run-shell:
+	@cd $(TARGET_ROOT) \
+	&& ( \
+		$(DOCKER_COMPOSE) run --entrypoint bash tool \
+			&& $(DOCKER_COMPOSE) rm -f tool \
+			|| $(DOCKER_COMPOSE) rm -f tool \
+	)
