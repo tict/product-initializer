@@ -49,10 +49,11 @@ rust-shell: prepare-rust
 .PHONY: run
 run:
 	@cd $(TARGET_ROOT) \
-	&& ($(DOCKER_COMPOSE) up && $(DOCKER_COMPOSE) rm -f tool || $(DOCKER_COMPOSE) rm -f tool)
+		&& ($(DOCKER_COMPOSE) up &&  $(DOCKER_COMPOSE) down --rmi all || $(DOCKER_COMPOSE) down --rmi all)
 
 # shell
 .PHONY: run-shell
 run-shell:
 	@cd $(TARGET_ROOT) \
-	&& $(DOCKER_COMPOSE) run --entrypoint bash --rm tool
+		&& $(DOCKER_COMPOSE) run --entrypoint bash --rm tool \
+		&& $(DOCKER_COMPOSE) down --rmi all || $(DOCKER_COMPOSE) down --rmi all

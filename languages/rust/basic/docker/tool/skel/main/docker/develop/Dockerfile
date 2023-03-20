@@ -20,9 +20,11 @@ ENV CARGO_TARGET_DIR=/tmp/target \
 
 # User
 COPY scripts ${PI}/scripts
+COPY skel ${PI}/skel
 RUN chmod -R 777 ${PI}
 RUN DEV_USER_ID=${DEV_USER_ID} DEV_GROUP_ID=${DEV_GROUP_ID} sh /opt/pi/scripts/common/init-user.sh
 RUN rm -fr ${PI}/scripts/common \
+  && rm -fr ${PI}/skel \
   && rm -f ${PI}/scripts/.gitignore
 
 

@@ -14,4 +14,4 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace
-    entrypoint: bash
+    entrypoint: bash -c /bin/bash
