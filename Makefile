@@ -45,6 +45,11 @@ rust: prepare-rust
 rust-shell: prepare-rust
 	@make run-shell TARGET_ROOT="$(RUST_ROOT)/basic"
 
+.PHONY: rust-build
+rust-build: prepare-rust
+	@make run-build TARGET_ROOT="$(RUST_ROOT)/basic"
+
+
 # main
 .PHONY: run
 run:
@@ -57,3 +62,9 @@ run-shell:
 	@cd $(TARGET_ROOT) \
 		&& $(DOCKER_COMPOSE) run --entrypoint bash --rm tool \
 		&& $(DOCKER_COMPOSE) down --rmi all || $(DOCKER_COMPOSE) down --rmi all
+
+# build image only
+.PHONY: run-build
+run-build:
+	@cd $(TARGET_ROOT) \
+		&& $(DOCKER_COMPOSE) build --progress=plain
