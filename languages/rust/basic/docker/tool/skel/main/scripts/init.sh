@@ -8,16 +8,21 @@
 ECHO=/bin/echo
 
 ENV_FILE=./.env
-HOST_GID=`id -g`
-HOST_UID=`id -u`
-DEV_USER_NAME=`whoami`
 
-if [ $HOST_GID -lt 501 ]; then
-    HOST_GID=501
+if [ ! -e $ENV_FILE ]; then
+    HOST_GID=`id -g`
+    HOST_UID=`id -u`
+    DEV_USER_NAME=`whoami`
+
+    if [ $HOST_GID -lt 501 ]; then
+        HOST_GID=501
+    fi
+
+    $ECHO "HOST_UID=${HOST_UID}" >> $ENV_FILE
+    $ECHO "HOST_GID=${HOST_GID}" >> $ENV_FILE
+    $ECHO "DEV_USER_NAME=${DEV_USER_NAME}" >> $ENV_FILE
+
+    $ECHO "creating ${ENV_FILE} done."
 fi
 
-$ECHO "HOST_UID=${HOST_UID}" >> $ENV_FILE
-$ECHO "HOST_GID=${HOST_GID}" >> $ENV_FILE
-$ECHO "DEV_USER_NAME=${DEV_USER_NAME}" >> $ENV_FILE
-
-$ECHO "creating ${ENV_FILE} done."
+docker-compose run --entrypoint bash --rm develop
