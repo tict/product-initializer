@@ -31,9 +31,10 @@ if [ ! -e /tmp/home ]; then
     exit 0
 fi
 
+PI_SKEL_HOME=/opt/pi/skel/home
 USER_NAME=`id -nu ${DEV_USER_ID}`
-cp -fr /tmp/home/* /home/$USER_NAME/ \
-    && (cp -f /tmp/home/.bashrc /home/$USER_NAME/.bashrc || echo "user default .bashrc") \
-    && rm -fr /tmp/home
+cp -fr $PI_SKEL_HOME/* /home/$USER_NAME/ \
+    && (cp -f $PI_SKEL_HOME/.bashrc /home/$USER_NAME/.bashrc || echo "user default .bashrc") \
+    && rm -fr $PI_SKEL_HOME
 chown -R ${DEV_USER_ID}:${DEV_GROUP_ID} /home/$USER_NAME \
     && chmod 755 /home/$USER_NAME/scripts/*
