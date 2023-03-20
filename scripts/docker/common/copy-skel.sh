@@ -12,3 +12,7 @@ fi
 
 cp -fr $SKEL_PATH/$TARGET/* $1
 cp -fr $SKEL_PATH/$TARGET/.* $1
+
+if [ -e $1/scripts ]; then
+    chmod -R 777 $1/scripts
+fi
