@@ -16,4 +16,4 @@ services:
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: bash -c 'cargo new rust/new-basic-project && ${COPY_SKEL} rust/new-basic-project'
+    entrypoint: bash -c 'cargo new rust/${PROJECT_NAME:-new-basic-project} && ${COPY_SKEL} rust/${PROJECT_NAME:-new-basic-project}'

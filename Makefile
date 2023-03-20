@@ -1,9 +1,22 @@
+#
+# Makefile
+# 
+# Usage:
+#   make <task> PROJECT_NAME=xxxxx
+#     ex: make rust PROJECT_NAME=new_project
+#
+# Tasks:
+#   clean: remove all temp files
+#   rust:  create rust project (option: PROJECT_NAME)
+#
+
+
+# project name
+PROJECT_NAME :=
 # set at internal make command run-xxxx
 TARGET_ROOT :=
 # docker compose
 DOCKER_COMPOSE := docker-compose
-
-RUST_ROOT := languages/rust
 
 SCRIPTS_DOCKER_COMMON := scripts/docker/common
 SCRIPT_FILES_DOCKER_COMMON := $(shell find $(SCRIPTS_DOCKER_COMMON) -name *.sh -print)
@@ -22,6 +35,8 @@ dist:
 
 
 # rust
+RUST_ROOT := languages/rust
+
 .PHONY: rust
 rust:
 	@make run TARGET_ROOT="$(RUST_ROOT)/basic"
@@ -66,5 +81,5 @@ run-prepare: $(TARGET_ROOT)/.env dist
 $(TARGET_ROOT)/.env: $(SCRIPT_FILES_DOCKER_COMMON)
 	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/scripts/common
 	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/skel/main/docker/develop/scripts/common
-	sh scripts/basic/env.sh $@
+	PROJECT_NAME=$(PROJECT_NAME) sh scripts/basic/env.sh $@
 	cp $@ `dirname $@`/docker/tool/skel/main
