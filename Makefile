@@ -7,19 +7,23 @@
 #
 # Tasks:
 #   clean: remove all temp files
-#   rust:  create rust project (option: PROJECT_NAME)
+#   rust:  create rust project (option: PROJECT_NAME, TARGET_CONTEXT)
 #
 
 
 # project name
 PROJECT_NAME :=
-# set at internal make command run-xxxx
+# target context
+TARGET_CONTEXT := basic
+# NOT set by yourself, this is set at internal make command for task run-xxxx
 TARGET_ROOT :=
 # docker compose
 DOCKER_COMPOSE := docker-compose
 
+# scripts
 SCRIPTS_DOCKER_COMMON := scripts/docker/common
 SCRIPT_FILES_DOCKER_COMMON := $(shell find $(SCRIPTS_DOCKER_COMMON) -name *.sh -print)
+
 
 # clean
 .PHONY: clean
@@ -35,23 +39,23 @@ dist:
 
 
 # rust
-RUST_ROOT := languages/rust
+RUST_ROOT := languages/rust/$(TARGET_CONTEXT)
 
 .PHONY: rust
 rust:
-	@make run TARGET_ROOT="$(RUST_ROOT)/basic"
+	@make run TARGET_ROOT=$(RUST_ROOT)
 
 .PHONY: rust-shell
 rust-shell:
-	@make run-shell TARGET_ROOT="$(RUST_ROOT)/basic"
+	@make run-shell TARGET_ROOT=$(RUST_ROOT)
 
 .PHONY: rust-build
 rust-build:
-	@make run-build TARGET_ROOT="$(RUST_ROOT)/basic"
+	@make run-build TARGET_ROOT=$(RUST_ROOT)
 
 .PHONY: rust-prepare
 rust-prepare:
-	@make run-prepare TARGET_ROOT="$(RUST_ROOT)/basic"
+	@make run-prepare TARGET_ROOT=$(RUST_ROOT)
 
 
 # main

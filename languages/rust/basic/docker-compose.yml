@@ -9,11 +9,9 @@ services:
       args:
         DEV_USER_ID: ${HOST_UID:-1000}
         DEV_GROUP_ID: ${HOST_GID:-1000}
-    environment:
-      COPY_SKEL: ${COPY_SKEL:-/opt/pi/scripts/copy-skel.sh}
     tty: true
     user: ${HOST_UID:-1000}:${HOST_GID:-1000}
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: bash -c 'cargo new rust/${PROJECT_NAME:-new-basic-project} && ${COPY_SKEL} rust/${PROJECT_NAME:-new-basic-project}'
+    entrypoint: bash -c 'cargo new rust/${PROJECT_NAME:-new-basic-project} && ${COPY_SKEL:-/opt/pi/scripts/copy-skel.sh} rust/${PROJECT_NAME:-new-basic-project}'
