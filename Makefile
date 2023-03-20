@@ -1,4 +1,6 @@
+# set at internal make command run-xxxx
 TARGET_ROOT :=
+# docker compose
 DOCKER_COMPOSE := docker-compose
 
 RUST_ROOT := languages/rust
@@ -49,6 +51,10 @@ rust-shell: prepare-rust
 rust-build: prepare-rust
 	@make run-build TARGET_ROOT="$(RUST_ROOT)/basic"
 
+.PHONY: rust-prepare
+rust-prepare:
+	@make run-prepare TARGET_ROOT="$(RUST_ROOT)/basic"
+
 
 # main
 .PHONY: run
@@ -68,3 +74,15 @@ run-shell:
 run-build:
 	@cd $(TARGET_ROOT) \
 		&& $(DOCKER_COMPOSE) build --progress=plain
+
+# prepare
+.PHONY: run-prepare
+run-prepare: $(TARGET_ROOT)/.env dist
+
+# .env
+$(TARGET_ROOT)/.env: $(SCRIPT_FILES_DOCKER_COMMON)
+	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/scripts/common
+	cp -r $(SCRIPTS_DOCKER_COMMON) `dirname $@`/docker/tool/skel/main/docker/develop/scripts/common
+	sh scripts/basic/env.sh $@
+	cp $@ `dirname $@`/docker/tool/skel/main
+
