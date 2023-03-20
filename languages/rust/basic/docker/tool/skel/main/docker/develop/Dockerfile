@@ -34,3 +34,7 @@ RUN cargo install cargo-edit cargo-watch
 
 RUN apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+
+RUN mkdir -p /tmp/target && chmod 777 /tmp/target \
+  && mkdir -p /workspace && chmod 777 /workspace
