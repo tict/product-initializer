@@ -3,6 +3,7 @@ version: "3.8"
 services:
   tool:
     container_name: rust-dev-tool
+    image: rust-dev-tool:0.0.1
     build:
       context: ./docker/tool
       args:
@@ -13,4 +14,4 @@ services:
     working_dir: /workspace
     volumes:
       - ../../../dist:/workspace
-    entrypoint: cargo new new-project
+    entrypoint: bash -c 'cargo new rust/${PROJECT_NAME:-new-basic-project} && ${COPY_SKEL:-/opt/pi/scripts/copy-skel.sh} rust/${PROJECT_NAME:-new-basic-project}'

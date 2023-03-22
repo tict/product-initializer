@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  develop:
+    container_name: rust-dev
+    image: rust-dev:1.0.0
+    build:
+      context: ./docker/develop
+      args:
+        DEV_USER_ID: ${HOST_UID:-1000}
+        DEV_GROUP_ID: ${HOST_GID:-1000}
+    environment:
+      CARGO_TARGET_DIR: /tmp/target
+    tty: true
+    user: ${HOST_UID:-1000}:${HOST_GID:-1000}
+    working_dir: /workspace/main
+    volumes:
+      - .:/workspace/main
+    entrypoint: bash -c /bin/bash

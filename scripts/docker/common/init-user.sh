@@ -2,7 +2,7 @@
 #
 # Usage:
 #   cp -r xxx/skel/home /tmp/home
-#   DEV_USER_ID=501 DEV_GROUP_ID=501 ./user.sh 
+#   DEV_USER_ID=501 DEV_GROUP_ID=501 ./init-user.sh 
 #
 
 if [ -z $DEV_USER_ID ]; then
@@ -27,13 +27,22 @@ fi
         echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     )
 
-if [ ! -e /tmp/home ]; then
+#
+# HOME
+#
+PI_SKEL_HOME=/opt/pi/skel/home
+
+if [ ! -e $PI_SKEL_HOME ]; then
+    echo "skip copying files to home"
     exit 0
 fi
 
 USER_NAME=`id -nu ${DEV_USER_ID}`
-cp -fr /tmp/home/* /home/$USER_NAME/ \
-    && (cp -f /tmp/home/.bashrc /home/$USER_NAME/.bashrc || echo "user default .bashrc") \
-    && rm -fr /tmp/home
-chown -R ${DEV_USER_ID}:${DEV_GROUP_ID} /home/$USER_NAME \
-    && chmod 755 /home/$USER_NAME/scripts/*
+
+cp -fr $PI_SKEL_HOME/. /home/$USER_NAME/ \
+    && rm -fr $PI_SKEL_HOME
+
+if [ -e /home/$USER_NAME/scripts ]; then
+    chown -R ${DEV_USER_ID}:${DEV_GROUP_ID} /home/$USER_NAME \
+        && chmod 755 /home/$USER_NAME/scripts/*
+fi
